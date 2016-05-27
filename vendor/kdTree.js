@@ -316,16 +316,45 @@
     };
 
     this.pointsBFS = function () {
-      function bfs(node, result) {
-          if (!node) { return };
+      function bfs(node, bounds, result) {
+          if (!node) { return }
+
           var object = node.obj;
           object.dimension = node.dimension;
+          var leftBounds, rightBounds;
+
+          switch(object.dimension) {
+            case 0:
+              console.log("case 0");
+              object.x1   = object.x2 = object.red;
+              object.y1   = bounds.y1;
+              object.y2   = bounds.y2;
+              leftBounds  = { x1: bounds.x1, y1: bounds.y1, x2: object.x2, y2: bounds.y2 };
+              rightBounds = { x1: object.x1, y1: bounds.y1, x2: bounds.x2, y2: bounds.y2 };
+            break;
+            case 1:
+              console.log("case 1, bounds:", bounds);
+              object.y1   = object.y2 = object.green;
+              object.x1   = bounds.x1;
+              object.x2   = bounds.x2;
+              leftBounds  = { x1: bounds.x1, y1: bounds.y1, x2: bounds.x2, y2: object.y2 };
+              rightBounds = { x1: bounds.x1, y1: object.y1, x2: bounds.x2, y2: bounds.y2 };
+            break;
+          }
+
+          // Add to results
           result.push(object);
-          bfs(node.left, result);
-          bfs(node.right, result);
+
+          console.log("leftBounds:", leftBounds);
+          console.log("rightBounds:", rightBounds);
+          // Recursively traverse the tree
+          bfs(node.left , leftBounds,  result);
+          bfs(node.right, rightBounds, result);
       }
+
       var result = [];
-      bfs(this.root, result);
+      var bounds = {x1: 0, y1: 0, x2: 255, y2: 255};
+      bfs(this.root, bounds, result);
       return result;
     };
 
