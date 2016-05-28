@@ -316,42 +316,51 @@
     };
 
     this.pointsBFS = function () {
-      function bfs(node, bounds, depth, result) {
-          if (!node) { return }
-
-          var object = node.obj;
-          object.dimension = node.dimension;
-          object.depth = depth;
-          var leftBounds, rightBounds;
-
-          switch(object.dimension) {
-            case 0:
-              object.x1   = object.x2 = object.red;
-              object.y1   = bounds.y1;
-              object.y2   = bounds.y2;
-              leftBounds  = { x1: bounds.x1, y1: bounds.y1, x2: object.x2, y2: bounds.y2 };
-              rightBounds = { x1: object.x1, y1: bounds.y1, x2: bounds.x2, y2: bounds.y2 };
-            break;
-            case 1:
-              object.y1   = object.y2 = object.green;
-              object.x1   = bounds.x1;
-              object.x2   = bounds.x2;
-              leftBounds  = { x1: bounds.x1, y1: bounds.y1, x2: bounds.x2, y2: object.y2 };
-              rightBounds = { x1: bounds.x1, y1: object.y1, x2: bounds.x2, y2: bounds.y2 };
-            break;
-          }
-
-          // Add to results
-          result.push(object);
-
-          // Recursively traverse the tree
-          bfs(node.left , leftBounds,  depth + 1, result);
-          bfs(node.right, rightBounds, depth + 1, result);
-      }
-
       var result = [];
-      var bounds = {x1: 0, y1: 0, x2: 255, y2: 255};
-      bfs(this.root, bounds, 0, result);
+      var queue  = [];
+      var bounds = { x1: 0, y1: 0, x2: 255, y2: 255 };
+      var bundle = { node: this.root, bounds: bounds, depth: 0 };
+      queue.push(bundle);
+      while(queue.length > 0) {
+        var bundle = queue.shift();
+
+        var node   = bundle.node;
+        var bounds = bundle.bounds;
+        var depth  = bundle.depth;
+        var object = node.obj;
+
+        object.dimension = node.dimension;
+        object.depth = depth;
+
+        var leftBounds, rightBounds;
+        switch(object.dimension) {
+          case 0:
+            object.x1   = object.x2 = object.red;
+            object.y1   = bounds.y1;
+            object.y2   = bounds.y2;
+            leftBounds  = { x1: bounds.x1, y1: bounds.y1, x2: object.x2, y2: bounds.y2 };
+            rightBounds = { x1: object.x1, y1: bounds.y1, x2: bounds.x2, y2: bounds.y2 };
+          break;
+          case 1:
+            object.y1   = object.y2 = object.green;
+            object.x1   = bounds.x1;
+            object.x2   = bounds.x2;
+            leftBounds  = { x1: bounds.x1, y1: bounds.y1, x2: bounds.x2, y2: object.y2 };
+            rightBounds = { x1: bounds.x1, y1: object.y1, x2: bounds.x2, y2: bounds.y2 };
+          break;
+        }
+
+        result.push(object);
+        console.log(depth);
+
+        // Traverse the tree
+        if (node.left) {
+          queue.push({ node: node.left,  bounds: leftBounds,  depth: depth + 1 });
+        };
+        if (node.right) {
+          queue.push({ node: node.right, bounds: rightBounds, depth: depth + 1 });
+        };
+      } // while
       return result;
     };
 

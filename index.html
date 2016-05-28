@@ -108,7 +108,7 @@
 
             if (i < colors.length) {
               i++;
-              setTimeout(drawIteratively, 20);
+              setTimeout(drawIteratively, colors.length - i * 50);
             }
         }
         drawIteratively();
