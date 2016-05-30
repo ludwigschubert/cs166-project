@@ -85,6 +85,7 @@
       var dest = new Node(src.obj, src.dimension, null);
       if (src.left) dest.left = self.toJSON(src.left);
       if (src.right) dest.right = self.toJSON(src.right);
+      // if (src.parent) dest.parent = self.toJSON(src.parent);
       return dest;
     };
 
@@ -331,6 +332,7 @@
 
         object.dimension = node.dimension;
         object.depth = depth;
+        object.node = node
 
         var leftBounds, rightBounds;
         switch(object.dimension) {
@@ -351,7 +353,7 @@
         }
 
         result.push(object);
-        console.log(depth);
+        //console.log(depth);
 
         // Traverse the tree
         if (node.left) {
