@@ -218,17 +218,17 @@
               .attr("y1",    function(d) { return y(d.y1); })
               .attr("x2",    function(d) { return x(d.x2); })
               .attr("y2",    function(d) { return y(d.y2); })
+              .attr("stroke",function(d) {
+                switch(d.dimension) {
+                  case 0: return d3.rgb(d.red, 0, 0);
+                  case 1: return d3.rgb(0, d.green, 0);
+                  // case 2: return "green";
+                }
+              })
 
           selection.enter()
             .append("line")
             .attr("class", "point-line")
-            .attr("stroke",function(d) {
-              switch(d.dimension) {
-                case 0: return d3.rgb(d.red, 0, 0);
-                case 1: return d3.rgb(0, d.green, 0);
-                // case 2: return "green";
-              }
-            })
             // .attr("stroke-width", function(d) { return w(d.depth); })
             .attr("stroke-width", height/400)
             .style("opacity", 0.8)
@@ -237,13 +237,22 @@
             .attr("y1",    function(d) { return y(d.green); })
             .attr("x2",    function(d) { return x(d.red); })
             .attr("y2",    function(d) { return y(d.green); })
+            .attr("stroke",function(d) {
+                switch(d.dimension) {
+                  case 0: return d3.rgb(d.red, 0, 0);
+                  case 1: return d3.rgb(0, d.green, 0);
+                  // case 2: return "green";
+                }
+              })
             .transition()
               .attr("x1",    function(d) { return x(d.x1); })
               .attr("y1",    function(d) { return y(d.y1); })
               .attr("x2",    function(d) { return x(d.x2); })
               .attr("y2",    function(d) { return y(d.y2); })
 
-          // selection // enter + update
+          selection // enter + update
+            // .transition()
+              
           //   .transition().duration(2000)
           //     .attr("x1",    function(d) { return x(d.x1); })
           //     .attr("y1",    function(d) { return y(d.y1); })
