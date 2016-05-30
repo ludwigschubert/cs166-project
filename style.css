@@ -54,4 +54,32 @@ ul {
 svg.kdtree {
   border: 1px solid #DDD;
 }
+
+#kdtree {
+  display: inline-block;
+}
   
+
+/* binary tree */
+
+#binarytree {
+  display: inline-block;
+}
+
+svg.binarytree {
+  border: 1px solid #DDD;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.node text { font: 12px sans-serif; }
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}

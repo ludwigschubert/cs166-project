@@ -332,6 +332,7 @@
 
         object.dimension = node.dimension;
         object.depth = depth;
+        node.children = [node.left, node.right];
         object.node = node
 
         var leftBounds, rightBounds;
@@ -364,6 +365,22 @@
         };
       } // while
       return result;
+    };
+
+    this.d3tree = function () {
+      function dfs (node) {
+        if (!node) return "null"; // d3 expects JSON like nulls
+        var object = {};
+        object.name = node.obj.toString();
+        if (node.parent) {
+          object.parent = node.parent.obj.toString();
+        } else {
+          object.parent = "null"; // d3 expects JSON like nulls
+        }
+        object.children = [dfs(node.left), dfs(node.right)];
+        return object;
+      }
+      return dfs(this.root);
     };
 
     this.balanceFactor = function () {
