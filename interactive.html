@@ -313,7 +313,7 @@
               if (!d.node.parent) {
                 d.node.bx = width / 2;
               } else {
-                var inc = width / Math.pow(2, d.depth + 1 );
+                var inc = (width - 4*pointRadius) / Math.pow(2, d.depth + 1 );
                 if (d.node == d.node.parent.left) { // left child
                   d.node.bx = d.node.parent.bx - inc;
                 } else { // right child
@@ -322,7 +322,10 @@
               }
               return d.node.bx;
             })
-            .attr("cy",      function(d) { d.node.by = d.depth * (height / depth); return d.node.by; })
+            .attr("cy",      function(d) { 
+              d.node.by = (d.depth * ((height - 4*pointRadius) / depth)) + (2 * pointRadius); 
+              return d.node.by; 
+            })
             .style("fill",   function(d) { return d3.rgb(d.hex); })
 
           binaryTreePoints.exit()
