@@ -19,6 +19,8 @@
     <script src="xkcd_common_colors.json"></script>
     <script src="spectrum.js"></script>
     <script>
+      var fast = 400; // ms
+      var slow = 2500; // ms
       var data;
       var colorSubset = [];
       var tree = new kdTree(colorSubset, colorDistance, ["red", "green"]);
@@ -232,7 +234,7 @@
             })
 
           pointsSelection
-            .style("stroke-width",  function(d) { return d.node.onAccessPath ? 1 : 0; });
+            .style("stroke-width",  function(d) { return d.node.onAccessPath ? 2 : 0; });
 
           // lines
 
@@ -241,7 +243,7 @@
           
           selection // update
             .style("stroke-width",  function(d) { return d.node.onAccessPath ? 2*height/400 : height/400; })
-            .transition().duration(function(){ console.log(rebalancing); return rebalancing ? 2000 : 400 }).each("end", transitionEnd)
+            .transition().duration(function(){ console.log(rebalancing); return rebalancing ? slow : fast }).each("end", transitionEnd)
               .attr("x1",    function(d) { return x(d.x1); })
               .attr("y1",    function(d) { return y(d.y1); })
               .attr("x2",    function(d) { return x(d.x2); })
@@ -305,8 +307,8 @@
             .style("stroke", function(d) { return d3.rgb(d.hex); });
             
           binaryTreePoints // enter + update
-            .style("stroke-width",  function(d) { return d.node.onAccessPath ? 1 : 0; })
-            .transition().duration(function(){ return rebalancing ? 2000 : 400 })
+            .style("stroke-width",  function(d) { return d.node.onAccessPath ? 2 : 0; })
+            .transition().duration(function(){ return rebalancing ? slow : fast })
             .attr("cx",      function(d) { 
               if (!d.node.parent) {
                 d.node.bx = width / 2;
@@ -334,7 +336,7 @@
           
           selection // update
             .style("stroke-width",  function(d) { return d.node.onAccessPath ? 2*height/400 : height/400; })
-            .transition().duration(function(){ return rebalancing ? 2000 : 400 })
+            .transition().duration(function(){ return rebalancing ? slow : fast })
               .attr("x1",    function(d) { return d.node.parent ? d.node.parent.bx : d.node.bx; })
               .attr("y1",    function(d) { return d.node.parent ? d.node.parent.by : d.node.by; })
               .attr("x2",    function(d) { return d.node.bx;                            })
