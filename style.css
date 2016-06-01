@@ -83,3 +83,13 @@ svg.binarytree {
   stroke: #ccc;
   stroke-width: 2px;
 }
+
+.sp-picker-container {
+  margin: 20px;
+}
+.heading {
+  margin-left: 30px;
+}
+#results ul {
+  margin-top: 25px;
+}
