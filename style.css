@@ -87,9 +87,15 @@ svg.binarytree {
 .sp-picker-container {
   margin: 20px;
 }
+
 .heading {
   margin-left: 30px;
 }
+
 #results ul {
   margin-top: 25px;
+}
+
+#results ul li div {
+ border-radius: 15px;
 }
